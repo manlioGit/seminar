@@ -47,7 +47,7 @@ public class Course implements Entity {
 	
 	public Course(Map<String, String> params) {
 		this(
-			null,
+			params.get(ID).equals("") ? null : Integer.parseInt(params.get(ID)),
 			params.get(NAME), 
 			params.get(DESCRIPTION), 
 			params.get(LOCATION), 
@@ -73,8 +73,8 @@ public class Course implements Entity {
 		return _description;
 	}
 	
-	public String getId() {
-		return _id.toString();
+	public Integer getId() {
+		return _id;
 	}
 	
 	public String getLocation() {

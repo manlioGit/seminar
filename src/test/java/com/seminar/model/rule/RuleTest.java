@@ -35,7 +35,7 @@ public class RuleTest {
 	}
 	
 	@Test
-	public void format() throws Exception {
+	public void timeFormat() throws Exception {
 		TimeFormat time = new TimeFormat(Time.FORMAT);
 		assertThat(time.applyOn(""),is(false));
 		assertThat(time.message(),is("must have " + Time.FORMAT + " format"));

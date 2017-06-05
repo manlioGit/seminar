@@ -20,7 +20,7 @@ import com.seminar.view.ResponseWrapper;
 
 public class Create implements Controller {
 
-	public static final Route ROUTE = new Route("/course/create/?");
+	public static final Route ROUTE = new Route("/course/create/?", "/course/update");
 
 	@Override
 	public boolean handles(String url) {
@@ -29,12 +29,14 @@ public class Create implements Controller {
 	
 	@Override
 	public void execute(final Context context) throws Exception {
-			CourseForm courseForm = new CourseForm();
+			CourseForm courseForm = new CourseForm(new FeedBack(), Create.ROUTE, Course.ID);
 			if(context.post()){
 
 				EntityModel entity = new EntityModel(Course.rules(), context.requestMap());
 				if(entity.isValid()){
-					new CourseMapper(context.connection()).insert(entity.<Course>create(Course.class));
+					Course course = entity.<Course>create(Course.class); 
+					new CourseMapper(context.connection()).save(course);
+					
 					context.response().sendRedirect(AllCourse.ROUTE.toString());
 					return;
 				} else {
@@ -43,7 +45,7 @@ public class Create implements Controller {
 						errors.put(component, componentType(component, entity, context));
 					} 
 					
-					courseForm = new CourseForm(new FeedBack(errors));
+					courseForm = new CourseForm(new FeedBack(errors), Create.ROUTE, Course.ID);
 				}
 			}
 			

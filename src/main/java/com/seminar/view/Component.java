@@ -19,6 +19,10 @@ public class Component {
 		this(type, new ArrayList<String>(), userinput);
 	}
 	
+	public Component(String userinput) {
+		this(TYPE.SUCCESS, new ArrayList<String>(), userinput);
+	}
+	
 	public Collection<String> messages() {
 		return _messages;
 	}

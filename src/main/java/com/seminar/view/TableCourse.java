@@ -1,5 +1,6 @@
 package com.seminar.view;
 
+import static com.github.manliogit.javatags.lang.HtmlHelper.a;
 import static com.github.manliogit.javatags.lang.HtmlHelper.attr;
 import static com.github.manliogit.javatags.lang.HtmlHelper.group;
 import static com.github.manliogit.javatags.lang.HtmlHelper.table;
@@ -20,13 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.manliogit.javatags.element.Element;
+import com.seminar.controller.course.Delete;
 import com.seminar.model.entity.Course;
 
 public class TableCourse implements Html{
 
 	private final Iterable<Course> _courseList;
 
-	private final List<String> _header = asList(ID, NAME, LOCATION, TOTAL_SEATS, START);
+	private final List<String> _header = asList(ID, NAME, LOCATION, TOTAL_SEATS, START, "action");
 	
 	public TableCourse(Iterable<Course> courseList) {
 		_courseList = courseList;
@@ -59,11 +61,12 @@ public class TableCourse implements Html{
 	
 	private Element row(Course course){
 		return tr(
-				td(text(course.getId())),
-				th(attr("scope -> row"),text(course.getName())),
+				td(text(course.getId().toString())),
+				th(attr("scope -> row"), a(attr("href -> /course/" + course.getId()),text(course.getName()))),
 				td(text(course.getLocation())),
 				td(text(course.getTotalSeats().toString())),
-				td(text(course.getTime().toString()))
+				td(text(course.getTime().toString())),
+				td(a(attr("href -> " + Delete.ROUTE + "/" + course.getId()),"delete"))
 			);
 	}	
 	

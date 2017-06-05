@@ -19,10 +19,6 @@ public class Context {
 		_connection = connection;
 	}
 	
-	public Context(HttpServletRequest request, HttpServletResponse response) {
-		this(request, response, null);
-	}
-	
 	public HttpServletRequest request() {
 		return _request;
 	}

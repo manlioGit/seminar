@@ -1,6 +1,10 @@
 package com;
 
-import org.apache.commons.lang3.StringUtils;
+import static java.util.Arrays.asList;
+import static org.apache.commons.lang3.StringUtils.join;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Route {
 
@@ -21,6 +25,22 @@ public class Route {
 	
 	@Override
 	public String toString() {
-		return _regEx[0].replaceAll("/\\?", StringUtils.EMPTY);
+		List<String> clean = new ArrayList<String>();
+		for (String token : _regEx[0].split("/")) {
+			if(!isRegEx(token)){
+				clean.add(token);
+			}
+		} 
+		return clean.isEmpty() ?  _regEx[0] : join(clean, "/");
+	}
+
+	private boolean isRegEx(String token) {
+		List<String> regExElements= asList("?", "[", "]", "-");
+		for (String ch : regExElements) {
+			if(token.contains(ch)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
