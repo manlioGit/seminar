@@ -20,6 +20,9 @@ import static com.github.manliogit.javatags.lang.HtmlHelper.title;
 import static com.github.manliogit.javatags.lang.HtmlHelper.ul;
 
 import com.github.manliogit.javatags.element.Element;
+import com.seminar.controller.course.AllCourse;
+import com.seminar.controller.course.CreateCourse;
+import com.seminar.controller.student.StudentController;
 
 public class Layout implements Html {
 
@@ -102,11 +105,17 @@ public class Layout implements Html {
 			        div(attr("class -> row"),
 			          div(attr("class -> col-lg-2 col-md-2 col-sm-3"),
 			            div(attr("class -> list-group table-of-contents"),
-			              a(attr("class -> list-group-item","href -> /course"),
-			                text("List")
+			              a(attr("class -> list-group-item","href -> " + AllCourse.ROUTE),
+			                text("Course List")
 			              ),
-			              a(attr("class -> list-group-item","href -> /course/create"),
-			                text("Create")
+			              a(attr("class -> list-group-item","href -> " + CreateCourse.ROUTE),
+			                text("Create Course")
+			              ),
+			              a(attr("class -> list-group-item","href -> " + StudentController.ALL),
+			                text("Student List")
+			              ),
+			              a(attr("class -> list-group-item","href -> " + StudentController.CREATE),
+			                text("Create Student")
 			              )
 			            )
 			          ),

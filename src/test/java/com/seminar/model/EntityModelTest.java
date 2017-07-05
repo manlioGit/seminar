@@ -33,7 +33,7 @@ public class EntityModelTest {
 			put("c", "");
 		}};
 		
-		MultiValuedMap<String, String> errors = new EntityModel(rules, request).validate();
+		MultiValuedMap<String, String> errors = new EntityModel(null, rules, request).validate();
 		
 		assertThat(errors.get("a"), contains(new NotEmpty().message()));
 		assertThat(errors.get("b"), is(empty()));
@@ -47,7 +47,7 @@ public class EntityModelTest {
 			put("thing", "123");
 		}};
 		
-		 AnEntity anEntity = new EntityModel(rules, request).<AnEntity>create(AnEntity.class);
+		 AnEntity anEntity = new EntityModel(AnEntity.class, rules, request).<AnEntity>create();
 		 
 		 assertThat(anEntity.some, is("xxx"));
 		 assertThat(anEntity.thing, is(123));
@@ -55,7 +55,7 @@ public class EntityModelTest {
 	
 	@Test
 	public void emptyRequest() throws Exception {
-		MultiValuedMap<String, String> errors = new EntityModel(rules, new HashMap<String, String>()).validate();
+		MultiValuedMap<String, String> errors = new EntityModel(null, rules, new HashMap<String, String>()).validate();
 		
 		assertThat(errors.get("a"), contains(new NotEmpty().message()));
 		assertThat(errors.get("c"), contains(new NotEmpty().message(), new MaxLength(-1).message()));

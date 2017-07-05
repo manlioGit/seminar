@@ -15,8 +15,10 @@ public class EntityModel {
 
 	private final MultiValuedMap<String, Rule> _rules;
 	private final Map<String, String> _requestMap;
+	private final Class<? extends Entity> _klass;
 	
-	public EntityModel(MultiValuedMap<String, Rule> rules, Map<String, String> requestMap) {
+	public EntityModel(Class<? extends Entity> klass, MultiValuedMap<String, Rule> rules, Map<String, String> requestMap) {
+		_klass = klass;
 		_rules = rules;
 		_requestMap = requestMap;
 	}
@@ -43,11 +45,15 @@ public class EntityModel {
 		return validate().containsKey(label);
 	}
 	
-	public <T> T  create(Class<? extends Entity> klass) {
+	public <T> T  create() {
 		try {
-			return (T)klass.getConstructor(java.util.Map.class).newInstance(_requestMap);
+			return (T)_klass.getConstructor(java.util.Map.class).newInstance(_requestMap);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		} 
+	}
+	
+	public Iterable<String> signature(){
+		return Meta.signatureOf(_klass);
 	}
 }

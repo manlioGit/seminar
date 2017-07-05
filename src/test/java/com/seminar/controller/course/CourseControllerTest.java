@@ -53,7 +53,7 @@ public class CourseControllerTest {
 	
 	@Test
 	public void createNewCourse() throws Exception {
-		new CourseController().execute(context(Create.ROUTE, "POST", defaultRequestParams()));
+		new CourseController().execute(context(CreateCourse.ROUTE, "POST", defaultRequestParams()));
 		
 		assertThat(_response.status(), is(HttpServletResponse.SC_FOUND));
 		assertThat(_response.getHeader("Location"), is(AllCourse.ROUTE.toString()));
@@ -68,7 +68,7 @@ public class CourseControllerTest {
 		parameters.put("id", "1");
 		parameters.put("name", "updatedName");
 		
-		new CourseController().execute(context(Create.ROUTE, "POST", parameters));
+		new CourseController().execute(context(UpdateCourse.ROUTE, "POST", parameters));
 		
 		assertThat(_response.status(), is(HttpServletResponse.SC_FOUND));
 		assertThat(_response.getHeader("Location"), is(AllCourse.ROUTE.toString()));
@@ -95,9 +95,9 @@ public class CourseControllerTest {
 	
 	@Test
 	public void renderCreationForm() throws Exception {
-		new CourseController().execute(context(Create.ROUTE, "GET"));
+		new CourseController().execute(context(CreateCourse.ROUTE, "GET"));
 		
-		assertThat(_response.content(), containsString("<form class='form-horizontal' method='post' action='" + Create.ROUTE + "'>"));
+		assertThat(_response.content(), containsString("<form class='form-horizontal' method='post' action='" + CreateCourse.ROUTE + "'>"));
 	}
 	
 	@Test
@@ -111,7 +111,7 @@ public class CourseControllerTest {
 			put("start", "wrong format");
 		}};
 		
-		new CourseController().execute(context(Create.ROUTE, "POST", parameters));
+		new CourseController().execute(context(CreateCourse.ROUTE, "POST", parameters));
 		
 		assertThat(_response.content(), containsString("can't be empty"));
 		assertThat(_response.content(), containsString("must be a number"));

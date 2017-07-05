@@ -5,7 +5,7 @@ import com.Route;
 import com.seminar.controller.Controller;
 import com.seminar.model.mapper.CourseMapper;
 
-public class Delete implements Controller {
+public class DeleteCourse implements Controller {
 
 	public static final Route ROUTE = new Route("/course/delete/[0-9]+");
 	

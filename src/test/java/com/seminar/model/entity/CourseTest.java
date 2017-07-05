@@ -56,7 +56,7 @@ public class CourseTest {
 			put("location", "somewhere");
 			put("totalSeats", "15");
 		}};
-		EntityModel validCourse = new EntityModel(Course.rules(), params);
+		EntityModel validCourse = new EntityModel(Course.class, Course.rules(), params);
 		
 		assertThat(validCourse.isValid(), is(true));
 	}
@@ -64,7 +64,7 @@ public class CourseTest {
 	@Test
 	public void courseNameStartLocationTotalSeatsAreMandatory() throws Exception {
 		
-		EntityModel invalidCourse = new EntityModel(Course.rules(), new HashMap<String, String>());
+		EntityModel invalidCourse = new EntityModel(Course.class, Course.rules(), new HashMap<String, String>());
 		
 		assertThat(invalidCourse.isValid(), is(false));
 		assertThat(invalidCourse.isBrokenOn("name"), is(true));
@@ -83,7 +83,7 @@ public class CourseTest {
 			put("totalSeats", "9999");
 		}};
 		
-		MultiValuedMap<String, String> errors = new EntityModel(Course.rules(), params).validate();
+		MultiValuedMap<String, String> errors = new EntityModel(Course.class, Course.rules(), params).validate();
 		
 		assertThat(errors.get("name"), contains("must have no more than 15 chars"));
 		assertThat(errors.get("location"), contains("must have no more than 20 chars"));

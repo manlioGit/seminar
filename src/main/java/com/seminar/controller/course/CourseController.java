@@ -11,7 +11,7 @@ import com.seminar.controller.Controller;
 public class CourseController implements Controller {
 
 	private static final Iterable<Route> REGISTERED = asList(
-			AllCourse.ROUTE, Create.ROUTE, Update.ROUTE, Delete.ROUTE
+			AllCourse.ROUTE, CreateCourse.ROUTE, UpdateCourse.ROUTE, DeleteCourse.ROUTE
 		);
 	
 	@Override
@@ -29,7 +29,7 @@ public class CourseController implements Controller {
 
 		context.response().setContentType("text/html;charset=UTF-8");
 
-		List<Controller> actions = asList(new AllCourse(), new Create(), new Update(), new Delete());
+		List<Controller> actions = asList(new AllCourse(), new CreateCourse(), new UpdateCourse(), new DeleteCourse());
 		for (Controller action : actions) {
 			if(action.handles(context.requestUri())){
 				action.execute(context);

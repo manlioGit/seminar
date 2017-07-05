@@ -7,11 +7,6 @@ import static com.github.manliogit.javatags.lang.HtmlHelper.group;
 import static com.github.manliogit.javatags.lang.HtmlHelper.input;
 import static com.github.manliogit.javatags.lang.HtmlHelper.label;
 import static com.github.manliogit.javatags.lang.HtmlHelper.textarea;
-import static com.seminar.model.entity.Course.ID;
-import static com.seminar.model.entity.Course.LOCATION;
-import static com.seminar.model.entity.Course.NAME;
-import static com.seminar.model.entity.Course.START;
-import static com.seminar.model.entity.Course.TOTAL_SEATS;
 import static java.util.Arrays.asList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
@@ -21,29 +16,32 @@ import java.util.List;
 import com.Route;
 import com.github.manliogit.javatags.element.Element;
 import com.github.manliogit.javatags.element.attribute.Attribute;
-import com.seminar.controller.course.Create;
 
-public class CourseForm implements Html{
+public class Form implements Html {
 
 	private final FeedBack _feedBack;
 	private final Route _action;
 	private final List<String> _hidden;
+	private final Iterable<String> _components;
+	private final boolean _showDescription;
 	
-	public CourseForm() {
-		this(new FeedBack(), Create.ROUTE);
-	}
-	
-	public CourseForm(FeedBack feedBack, Route action, String...hidden){
+	public Form(FeedBack feedBack, Route action, Iterable<String> components, boolean showDescription, String...hidden){
 		_feedBack = feedBack;
 		_action = action;
+		_components = components;
+		_showDescription = showDescription;
 		_hidden = asList(hidden);
+	}
+	
+	public Form(FeedBack feedBack, Route action, Iterable<String> components, String...hidden){
+		this(feedBack, action, components, true, hidden);
 	}
 	
 	@Override
 	public Element build() {
 		
 		List<Element> input = new ArrayList<Element>();
-		for (String component: asList(NAME, START, LOCATION, TOTAL_SEATS, ID)) {
+		for (String component: _components) {
 			input.add(
 					div(atttibuteFor(component) ,                                                                                                      
 						label(attr("class -> col-sm-2 control-label").add("for", component), capitalize(component)),                                                           
@@ -62,18 +60,24 @@ public class CourseForm implements Html{
 		return 
 			form(attr("class -> form-horizontal", "method -> post", "action -> " + _action),                                                       
 				group(input),
-				div(attr(" class  -> form-group"),                                                                                                      
-					label(attr("for -> description", "class -> col-sm-2 control-label"), "Description"),                                                           
-					div(attr(" class  -> col-sm-10"),
-						textarea(attr("class -> form-control", "id -> description", "name -> description", "placeholder -> description"), _feedBack.text("description"))
-					)                                                                                                                    
-				),
+				description(),
 				div(attr(" class  -> form-group"),                                                                                                      
 					div(attr(" class  -> col-sm-10 col-sm-offset-2"),                                                                                   
 						input(attr("id -> submit", "name -> submit", "type -> submit",  "value -> Send", "class -> btn btn-primary"))                                  
 					)                                                                                                                    
 				)                                                                                                                        
 			);                                                                                                                           
+	}
+
+	private Element description() {
+		return _showDescription ? 
+		 div(attr(" class  -> form-group"),                                                                                                      
+			label(attr("for -> description", "class -> col-sm-2 control-label"), "Description"),                                                           
+			div(attr(" class  -> col-sm-10"),
+				textarea(attr("class -> form-control", "id -> description", "name -> description", "placeholder -> description"), _feedBack.text("description"))
+			)                                                                                                                    
+		)
+		: div();
 	}
 	
 	private Attribute atttibuteFor(String component){
