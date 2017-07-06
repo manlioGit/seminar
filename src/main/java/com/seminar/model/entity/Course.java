@@ -1,8 +1,7 @@
 package com.seminar.model.entity;
 
-import static com.seminar.model.rule.Number.OPERATOR.GREATER_THAN;
-import static com.seminar.model.rule.Number.OPERATOR.LESS_THAN;
-import static java.util.Arrays.asList;
+import static com.seminar.model.rule.Number.OPERATOR.*;
+import static java.util.Arrays.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class Course implements Entity {
 		_location = location;
 		_totalSeats = totalSeats;
 		_start = start; 
-		_students = new ArrayList<Student>();
+		_students = new ArrayList<>();
 	}
 	
 	public Course(Map<String, String> params) {
@@ -58,10 +57,10 @@ public class Course implements Entity {
 
 	public static MultiValuedMap<String, Rule> rules(){
 		 return new ArrayListValuedHashMap<String, Rule>(){{
-			putAll(NAME, 			  asList(new NotEmpty(), new MaxLength(15)));
+			putAll(NAME, 		  asList(new NotEmpty(), new MaxLength(15)));
 			putAll(LOCATION, 	  asList(new NotEmpty(), new MaxLength(20)));
-			putAll(TOTAL_SEATS, asList(new Number(GREATER_THAN, 0), new Number(LESS_THAN, 100), new MaxLength(3)));
-			put(START, 				  new TimeFormat(Time.FORMAT));
+			putAll(TOTAL_SEATS,   asList(new Number(GREATER_THAN, 0), new Number(LESS_THAN, 100), new MaxLength(3)));
+			put(START, 			  new TimeFormat(Time.FORMAT));
 		}};
 	}
 	

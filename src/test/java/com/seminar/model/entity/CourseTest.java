@@ -1,9 +1,8 @@
 package com.seminar.model.entity;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -87,6 +86,6 @@ public class CourseTest {
 		
 		assertThat(errors.get("name"), contains("must have no more than 15 chars"));
 		assertThat(errors.get("location"), contains("must have no more than 20 chars"));
-		assertThat(errors.get("totalSeats"), contains("must have no more than 3 chars", "must be less than 100"));
+		assertThat(errors.get("totalSeats"), contains("must be less than 100", "must have no more than 3 chars"));
 	}
 }
